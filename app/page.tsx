@@ -19,6 +19,8 @@ const initialTodos = [
 export default function Home() {
   const [todos, setTodos] = useState<Todo[]>([...initialTodos.map((t) => ({ ...t }))]);
   const [newTodo, setNewTodo] = useState("");
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editText, setEditText] = useState("");
 
   function addTodo() {
     const title = newTodo.trim();
@@ -38,6 +40,21 @@ export default function Home() {
 
   function deleteTodo(id: number) {
     setTodos((prev) => prev.filter((t) => t.id !== id));
+  }
+
+  function startEditing(todo: Todo) {
+    setEditingId(todo.id);
+    setEditText(todo.title);
+  }
+
+  function saveEdit(id: number) {
+    const trimmed = editText.trim();
+    if (!trimmed) return;
+    setTodos((prev) =>
+      prev.map((t) => (t.id === id ? { ...t, title: trimmed } : t))
+    );
+    setEditingId(null);
+    setEditText("");
   }
 
   const completed = todos.filter((t) => t.completed).length;
@@ -85,63 +102,112 @@ export default function Home() {
                 key={todo.id}
                 className="flex items-center gap-3 px-4 py-3 group"
               >
-                <button
-                  onClick={() => toggleTodo(todo.id)}
-                  className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md border transition-colors ${
-                    todo.completed
-                      ? "border-zinc-900 bg-zinc-900 dark:border-zinc-50 dark:bg-zinc-50"
-                      : "border-zinc-300 dark:border-zinc-600 hover:border-zinc-400 dark:hover:border-zinc-500"
-                  }`}
-                  aria-label={
-                    todo.completed
-                      ? `Mark "${todo.title}" incomplete`
-                      : `Mark "${todo.title}" complete`
-                  }
-                >
-                  {todo.completed && (
-                    <svg
-                      className="h-3 w-3 text-white dark:text-black"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={3}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                  )}
-                </button>
-                <span
-                  className={`flex-1 text-sm ${
-                    todo.completed
-                      ? "text-zinc-400 line-through dark:text-zinc-500"
-                      : "text-zinc-900 dark:text-zinc-100"
-                  }`}
-                >
-                  {todo.title}
-                </span>
-                <button
-                  onClick={() => deleteTodo(todo.id)}
-                  className="text-zinc-300 hover:text-red-500 dark:text-zinc-600 dark:hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
-                  aria-label={`Delete "${todo.title}"`}
-                >
-                  <svg
-                    className="h-4 w-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M6 18L18 6M6 6l12 12"
+                {editingId === todo.id ? (
+                  <>
+                    <input
+                      type="text"
+                      value={editText}
+                      onChange={(e) => setEditText(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") saveEdit(todo.id);
+                        if (e.key === "Escape") setEditingId(null);
+                      }}
+                      autoFocus
+                      className="flex-1 h-8 rounded border border-zinc-300 bg-zinc-50 px-3 text-sm text-zinc-900 outline-none focus:border-zinc-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-50 dark:focus:border-zinc-400"
                     />
-                  </svg>
-                </button>
+                    <button
+                      onClick={() => saveEdit(todo.id)}
+                      className="text-sm font-medium text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300"
+                    >
+                      Save
+                    </button>
+                    <button
+                      onClick={() => setEditingId(null)}
+                      className="text-sm font-medium text-zinc-400 hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-300"
+                    >
+                      Cancel
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => toggleTodo(todo.id)}
+                      className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md border transition-colors ${
+                        todo.completed
+                          ? "border-zinc-900 bg-zinc-900 dark:border-zinc-50 dark:bg-zinc-50"
+                          : "border-zinc-300 dark:border-zinc-600 hover:border-zinc-400 dark:hover:border-zinc-500"
+                      }`}
+                      aria-label={
+                        todo.completed
+                          ? `Mark "${todo.title}" incomplete`
+                          : `Mark "${todo.title}" complete`
+                      }
+                    >
+                      {todo.completed && (
+                        <svg
+                          className="h-3 w-3 text-white dark:text-black"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth={3}
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M5 13l4 4L19 7"
+                          />
+                        </svg>
+                      )}
+                    </button>
+                    <span
+                      className={`flex-1 text-sm ${
+                        todo.completed
+                          ? "text-zinc-400 line-through dark:text-zinc-500"
+                          : "text-zinc-900 dark:text-zinc-100"
+                      }`}
+                    >
+                      {todo.title}
+                    </span>
+                    <button
+                      onClick={() => startEditing(todo)}
+                      className="text-zinc-300 hover:text-blue-500 dark:text-zinc-600 dark:hover:text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity"
+                      aria-label={`Edit "${todo.title}"`}
+                    >
+                      <svg
+                        className="h-4 w-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z"
+                        />
+                      </svg>
+                    </button>
+                    <button
+                      onClick={() => deleteTodo(todo.id)}
+                      className="text-zinc-300 hover:text-red-500 dark:text-zinc-600 dark:hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
+                      aria-label={`Delete "${todo.title}"`}
+                    >
+                      <svg
+                        className="h-4 w-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+                  </>
+                )}
               </li>
             ))}
           </ul>
