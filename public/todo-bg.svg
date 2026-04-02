@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 600 600">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e0e7ff;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#dbeafe;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ede9fe;stop-opacity:1" />
+    </linearGradient>
+    <pattern id="dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <circle cx="20" cy="20" r="1.5" fill="#94a3b8" opacity="0.3"/>
+    </pattern>
+    <pattern id="lines" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="30" x2="60" y2="30" stroke="#94a3b8" stroke-width="0.5" opacity="0.15"/>
+    </pattern>
+  </defs>
+  <rect width="600" height="600" fill="url(#bg)"/>
+  <rect width="600" height="600" fill="url(#dots)"/>
+  <rect width="600" height="600" fill="url(#lines)"/>
+  <!-- Decorative elements -->
+  <g opacity="0.06">
+    <!-- Checkbox icons scattered -->
+    <rect x="80" y="120" width="20" height="20" rx="4" stroke="#6366f1" stroke-width="2" fill="none"/>
+    <path d="M85 130 l4 4 l8-8" stroke="#6366f1" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="450" y="80" width="20" height="20" rx="4" stroke="#6366f1" stroke-width="2" fill="none"/>
+    <rect x="320" y="450" width="20" height="20" rx="4" stroke="#6366f1" stroke-width="2" fill="none"/>
+    <path d="M325 460 l4 4 l8-8" stroke="#6366f1" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="150" y="380" width="20" height="20" rx="4" stroke="#6366f1" stroke-width="2" fill="none"/>
+    <rect x="500" y="320" width="20" height="20" rx="4" stroke="#6366f1" stroke-width="2" fill="none"/>
+    <path d="M505 330 l4 4 l8-8" stroke="#6366f1" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Lines representing text -->
+    <line x1="110" y1="130" x2="170" y2="130" stroke="#6366f1" stroke-width="2" stroke-linecap="round"/>
+    <line x1="480" y1="90" x2="540" y2="90" stroke="#6366f1" stroke-width="2" stroke-linecap="round"/>
+    <line x1="350" y1="460" x2="410" y2="460" stroke="#6366f1" stroke-width="2" stroke-linecap="round"/>
+    <line x1="180" y1="390" x2="230" y2="390" stroke="#6366f1" stroke-width="2" stroke-linecap="round"/>
+    <line x1="530" y1="330" x2="580" y2="330" stroke="#6366f1" stroke-width="2" stroke-linecap="round"/>
+    <!-- Pencil icon -->
+    <path d="M420 200 l12-12 l6 6 l-12 12 z" stroke="#6366f1" stroke-width="1.5" fill="none"/>
+    <path d="M420 200 l-3 9 l9-3" stroke="#6366f1" stroke-width="1.5" fill="none"/>
+    <!-- Star -->
+    <path d="M60 500 l4-12 l4 12 l-12-8 l12 0 z" stroke="#6366f1" stroke-width="1.5" fill="none"/>
+    <path d="M540 520 l4-12 l4 12 l-12-8 l12 0 z" stroke="#6366f1" stroke-width="1.5" fill="none"/>
+  </g>
+</svg>
